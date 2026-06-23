@@ -1,7 +1,7 @@
 # Copilot Instructions
 
 ## Stack
-- .NET 9, C# 13
+- .NET 10, C# 14
 - Angular (frontend)
 - Azure / GCP
 - Terraform (infrastructure)
