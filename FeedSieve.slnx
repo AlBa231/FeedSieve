@@ -11,6 +11,7 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/Solution Items/.github/">
+    <File Path=".github/CODEOWNERS" />
     <File Path=".github/copilot-instructions.md" />
   </Folder>
   <Folder Name="/Solution Items/.github/actions/" />
