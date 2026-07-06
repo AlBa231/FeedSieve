@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace FeedSieve;
+﻿namespace FeedSieve;
 
 public partial class App : Application
 {
-    public App()
+    private readonly IFeedSeedDataService _feedSeed;
+
+    public App(IFeedSeedDataService feedSeed)
     {
+        _feedSeed = feedSeed;
         InitializeComponent();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new AppShell());
+        return new Window(new AppShell(_feedSeed));
     }
 }

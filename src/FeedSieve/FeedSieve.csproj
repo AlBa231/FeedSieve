@@ -105,17 +105,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\FeedSieve.Core\FeedSieve.Core.csproj" />
 	  <ProjectReference Include="..\FeedSieve.Providers\FeedSieve.Providers.csproj" />
 	  <ProjectReference Include="..\FiedSieve.Infrastructure\FeedSieve.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\FeedListPage.xaml.cs">
+	    <DependentUpon>FeedListPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\FeedItemTemplates.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<PropertyGroup>
 		<HuskyRoot Condition="'$(HuskyRoot)' == ''">.</HuskyRoot>
 	</PropertyGroup>
-	<Target Name="Husky" AfterTargets="Restore" Condition="'$(HUSKY)' != 0"
-	        Inputs="$(HuskyRoot)/.config/dotnet-tools.json"
-	        Outputs="$(HuskyRoot)/.husky/_/install.stamp">
-		<Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High"/>
+	<Target Name="Husky" AfterTargets="Restore" Condition="'$(HUSKY)' != 0" Inputs="$(HuskyRoot)/.config/dotnet-tools.json" Outputs="$(HuskyRoot)/.husky/_/install.stamp">
+		<Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
 		<Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="$(HuskyRoot)" />
 	</Target>
 </Project>

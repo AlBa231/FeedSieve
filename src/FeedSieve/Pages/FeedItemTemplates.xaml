@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:vm="using:FeedSieve.PageModels" 
+                     xmlns:converters="using:FeedSieve.Converters">
+
+    <converters:TagToColorConverter x:Key="TagToColorConverter" />
+    <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+
+    <!-- Standard row: favicon | meta+title+summary+actions | optional thumbnail -->
+    <DataTemplate x:Key="StandardFeedRowTemplate" x:DataType="vm:FeedItemViewModel">
+        <Grid Padding="16,12" ColumnSpacing="12"
+              ColumnDefinitions="28,*,Auto">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenCommand}" />
+            </Grid.GestureRecognizers>
+
+            <Border Grid.Column="0" StrokeShape="RoundRectangle 4"
+                    BackgroundColor="{DynamicResource ThemeSecondary}"
+                    Stroke="{DynamicResource ThemeBorder}" StrokeThickness="1"
+                    WidthRequest="28" HeightRequest="28" Padding="0"
+                    VerticalOptions="Start">
+                <Label Text="{Binding Favicon}" FontFamily="JetBrainsMono" FontSize="9"
+                       TextColor="{DynamicResource ThemeMutedForeground}"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                <!-- meta row: source, tag chip, timestamp -->
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="8">
+                    <Label Grid.Column="0" Text="{Binding Source}"
+                           FontFamily="JetBrainsMono" FontSize="11"
+                           TextColor="{DynamicResource ThemeMutedForeground}"
+                           LineBreakMode="TailTruncation" />
+
+                    <Border Grid.Column="1" IsVisible="{Binding Tag, Converter={StaticResource InvertedBoolConverter}}"
+                            StrokeShape="RoundRectangle 3" Padding="6,1"
+                            BackgroundColor="{Binding Tag, Converter={StaticResource TagToColorConverter}}"
+                            Opacity="0.85">
+                        <Label Text="{Binding Tag}" FontFamily="JetBrainsMono" FontSize="10"
+                               TextColor="{DynamicResource ThemeCard}" />
+                    </Border>
+
+                    <Label Grid.Column="3" Text="{Binding Timestamp}"
+                           FontFamily="JetBrainsMono" FontSize="10"
+                           TextColor="{DynamicResource ThemeMutedForeground}"
+                           HorizontalOptions="End" />
+                </Grid>
+
+                <!-- title with unread dot -->
+                <HorizontalStackLayout Spacing="6">
+                    <Label Text="{Binding Title}"
+                           FontFamily="Inter-Medium" FontSize="14"
+                           FontAttributes="Bold"
+                           LineBreakMode="TailTruncation" MaxLines="2"
+                           TextColor="{DynamicResource ThemeForeground}"
+                           VerticalOptions="Start" />
+                    <Ellipse WidthRequest="6" HeightRequest="6"
+                             Fill="{DynamicResource ThemePrimary}"
+                             IsVisible="{Binding IsRead, Converter={StaticResource InvertedBoolConverter}}"
+                             VerticalOptions="Start" Margin="0,4,0,0" />
+                </HorizontalStackLayout>
+
+                <Label Text="{Binding Summary}"
+                       FontFamily="Inter" FontSize="12"
+                       TextColor="{DynamicResource ThemeMutedForeground}"
+                       LineBreakMode="TailTruncation" MaxLines="2" />
+
+                <!-- actions: Open / Save -->
+                <HorizontalStackLayout Spacing="12" Margin="0,4,0,0">
+                    <Label Text="Open" FontSize="10" TextColor="{DynamicResource ThemeMutedForeground}" />
+                    <Label Text="Save" FontSize="10" TextColor="{DynamicResource ThemeMutedForeground}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleSavedCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- optional thumbnail -->
+            <Border Grid.Column="2" IsVisible="{Binding ImageUrl, Converter={StaticResource InvertedBoolConverter}}"
+                    StrokeShape="RoundRectangle 4" WidthRequest="64" HeightRequest="64"
+                    VerticalOptions="Start" Padding="0" StrokeThickness="0">
+                <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Featured row: hero image on top, then favicon+meta+title+summary+actions -->
+    <DataTemplate x:Key="FeaturedFeedRowTemplate" x:DataType="vm:FeedItemViewModel">
+        <VerticalStackLayout>
+            <VerticalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenCommand}" />
+            </VerticalStackLayout.GestureRecognizers>
+
+            <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="150" />
+
+            <Grid Padding="16,10,16,12" ColumnDefinitions="28,*" ColumnSpacing="12">
+                <Border Grid.Column="0" StrokeShape="RoundRectangle 4"
+                        BackgroundColor="{DynamicResource ThemeSecondary}"
+                        Stroke="{DynamicResource ThemeBorder}" StrokeThickness="1"
+                        WidthRequest="28" HeightRequest="28" Padding="0"
+                        VerticalOptions="Start">
+                    <Label Text="{Binding Favicon}" FontFamily="JetBrainsMono" FontSize="9"
+                           TextColor="{DynamicResource ThemeMutedForeground}"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                    <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="8">
+                        <Label Grid.Column="0" Text="{Binding Source}"
+                               FontFamily="JetBrainsMono" FontSize="11"
+                               TextColor="{DynamicResource ThemeMutedForeground}" />
+                        <Border Grid.Column="1" IsVisible="{Binding Tag, Converter={StaticResource InvertedBoolConverter}}"
+                                StrokeShape="RoundRectangle 3" Padding="6,1"
+                                BackgroundColor="{Binding Tag, Converter={StaticResource TagToColorConverter}}">
+                            <Label Text="{Binding Tag}" FontFamily="JetBrainsMono" FontSize="10"
+                                   TextColor="{DynamicResource ThemeCard}" />
+                        </Border>
+                        <Label Grid.Column="3" Text="{Binding Timestamp}"
+                               FontFamily="JetBrainsMono" FontSize="10"
+                               TextColor="{DynamicResource ThemeMutedForeground}"
+                               HorizontalOptions="End" />
+                    </Grid>
+
+                    <Label Text="{Binding Title}" FontFamily="Inter-Medium" FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource ThemeForeground}" LineBreakMode="TailTruncation" MaxLines="2" />
+                    <Label Text="{Binding Summary}" FontFamily="Inter" FontSize="12"
+                           TextColor="{DynamicResource ThemeMutedForeground}" LineBreakMode="TailTruncation" MaxLines="2" />
+                </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </DataTemplate>
+
+</ResourceDictionary>

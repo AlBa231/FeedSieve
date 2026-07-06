@@ -6,12 +6,15 @@ namespace FeedSieve;
 
 public partial class AppShell : Shell
 {
-    public AppShell()
+    public AppShell(IFeedSeedDataService seedData)
     {
         InitializeComponent();
-        var currentTheme = Application.Current!.RequestedTheme;
-        ThemeSegmentedControl.SelectedIndex = currentTheme == AppTheme.Light ? 0 : 1;
+        TodayContent.Content = new FeedListPage(seedData.CreateTabViewModel(FeedTab.Today));
+        NewContent.Content = new FeedListPage(seedData.CreateTabViewModel(FeedTab.New));
+        AllContent.Content = new FeedListPage(seedData.CreateTabViewModel(FeedTab.All));
+        SavedContent.Content = new FeedListPage(seedData.CreateTabViewModel(FeedTab.Saved));
     }
+
     public static async Task DisplaySnackbarAsync(string message)
     {
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -47,4 +50,5 @@ public partial class AppShell : Shell
     {
         Application.Current!.UserAppTheme = e.NewIndex == 0 ? AppTheme.Light : AppTheme.Dark;
     }
+
 }

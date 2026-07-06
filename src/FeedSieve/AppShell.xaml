@@ -5,14 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:FeedSieve.Pages"
-    Shell.FlyoutBehavior="Flyout"
+    FlyoutBehavior="Flyout"
     Title="FeedSieve">
 
-    <ShellContent
-        Title="Dashboard"
-        Icon="{StaticResource IconDashboard}"
-        ContentTemplate="{DataTemplate pages:MainPage}"
-        Route="main" />
+    <FlyoutItem Title="Feeds" Icon="{StaticResource IconFeedList}" Route="feeds">
+        <Tab Title="Today" Icon="tab_today.png">
+            <ShellContent x:Name="TodayContent" Route="today" />
+        </Tab>
+        <Tab Title="New" Icon="tab_new.png">
+            <ShellContent x:Name="NewContent" Route="new" />
+        </Tab>
+        <Tab Title="All" Icon="tab_all.png">
+            <ShellContent x:Name="AllContent" Route="all" />
+        </Tab>
+        <Tab Title="Saved" Icon="tab_saved.png">
+            <ShellContent x:Name="SavedContent" Route="saved" />
+        </Tab>
+    </FlyoutItem>
 
     <ShellContent
         Title="Projects"

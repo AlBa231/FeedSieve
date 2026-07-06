@@ -48,9 +48,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<TagRepository>();
         builder.Services.AddSingleton<SeedDataService>();
         builder.Services.AddSingleton<ModalErrorHandler>();
-        builder.Services.AddSingleton<MainPageModel>();
+        builder.Services.AddSingleton<FeedTabViewModel>();
         builder.Services.AddSingleton<ProjectListPageModel>();
         builder.Services.AddSingleton<ManageMetaPageModel>();
+
+        builder.Services.AddSingleton<IFeedSeedDataService, DesignTimeFeedSeedDataService>();
 
         builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
         builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");
