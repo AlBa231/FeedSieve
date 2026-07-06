@@ -100,7 +100,6 @@
 		<PackageReference Include="Serilog.Sinks.Debug" />
 		<PackageReference Include="Serilog.Sinks.File" />
 		<PackageReference Include="Serilog.Sinks.Telegram.Alternative" />
-		<PackageReference Include="SQLitePCLRaw.bundle_green" />
 		<PackageReference Include="Syncfusion.Maui.Toolkit" />
 	</ItemGroup>
 
